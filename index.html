@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+
+    <script src="https://gmousse.github.io/dataframe-js/dist/dataframe.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+p {
+    font-size: 18px;
+}
+#games{
+    color: green;
+}
+#ion-pointer {
+    cursor: pointer;
+}
+#gfg {
+    text-decoration: none
+}
+#card_1{
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px 18px #888888;
+}
+.background {
+    background-color: #b1b1cd
+}
+.card:hover  {
+        transform: scale(1.1);
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+input[type=text] {
+  width: 200px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('https://img.icons8.com/search');
+  background-size: 20px;
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+
+
+
+</style>
+	</head>
+    <body>
+        <div class="container-fluid" style="margin-top: 24px">
+            <div class="row">
+                <div class='cognizant col-1' style="margin-top: -8px">
+                    <img src = "https://logos-download.com/wp-content/uploads/2019/01/Cognizant_Technology_Solutions_Corp_Logo_old.png" 
+                        height="100px" width="100px"
+                        alt = "Alt Image" />
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-2"><h2>Cognizant</h2></div>
+                        <div class="col-4" style="line-height: 3" id="games">Games Arena</div>
+                    </div>
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+        </div>
+        
+        <div class= "container-fluid " style="margin: 16px 0">
+            <!-- Search form -->
+            <div class="row">
+                <div class="md-form mt-0 col-9" >
+                <input class="form-control" id="myInput"
+                       type="text" placeholder="Search (by name)"
+                       aria-label="Search" onkeyup="myFunction()">
+                </div>
+                <div class="col-2" >
+                    <div class="row">
+                        <ion-icon id="ion-pointer" name="funnel"  size="large" class="ion-i" onclick="sortFunction()">
+
+                        </ion-icon>
+                        <div id="sort"></div>
+                    </div>
+                </div>
+            </row>
+            <div class="container-fluid background" style={"margin-top: 16px"}>
+            <div class="row" id="container">
+                <div  id="url" class="col-6">
+                </div>
+                <div  id="url_1" class="col-6">
+                </div>
+            </div>
+            </div>
+        </div>
+
+<script >
+//Insert code below
+var title = []
+var platform = []
+var genre = []
+var score = []
+var release_year = []
+
+let url = "http://starlord.hackerearth.com/gamesext"
+
+fetch(url)
+            .then(
+                function (response) {
+                    if (response.status !== 200) {
+                        return;
+                    }
+
+                    // Examine the text in the response
+                    response.json().then(function (data) {
+                        console.log(data)
+                        let html = ''
+                        let html_1 = ''
+
+                        
+                        data.map((d, index) => {
+                            let star = d.editors_choice == "Y"  ?  `<div class='col-1' id='ion-pointer'>
+                                                    <ion-icon name="star">
+                                                    </ion-icon></div>` : `<div class='col-1' id='ion-pointer'>
+                                                    <ion-icon name="star-outline"></ion-icon></div>`;
+                                
+        
+                                                    
+                            if(index == 0){
+                                return
+                            }
+                            else
+                            {
+                                title.push(d.title)
+                                platform.push(d.platform)
+                                genre.push(d.genre)
+                                score.push(d.score)
+                                release_year.push(d.release_year)
+
+                                if(index%2 != 0)
+                                {
+                                    html += `<div class="row" >
+                                        <div class = "col-11">
+                                            <div class="card" style="margin: 16px 0" id="card_1">
+                                                <div class="card-body">
+                                                    <div  class="card-title text-center row">
+                                                    <div class = 'col-11 myUL'><h4><a id="gfg" href="#"> ${d.title} </a></h4></div> 
+                                                    ${star}
+                                                    </div>
+                                                    <p class="card-text text-center">${d.platform}</p>
+                                                </div>
+                                                <div class="card-footer text-muted">
+                                                    <div class="row">
+                                                     <div class="text-left col-2">
+                                                Genre: 
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                              ${d.genre}
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                                Release Date:
+                                                </div>
+                                                <div class="text-left col-2 p-0">
+                                                 ${d.release_year}
+                                                </div>
+                                                <div class="text-right col-2" style="color: red">
+                                                    ${d.score}
+                                                </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>`
+                                }
+                                else
+                                {
+                                    html_1 += `<div class="row">
+                                    <div class = "col-12">
+                                        <div class="card" style="margin: 16px 0" id = "card_1">
+                                            <div class="card-body">
+                                                <div  class="card-title text-center row">
+                                                    <div class = 'col-11' id="myUL">
+                                                    
+                                                        <h4><a id="gfg" href="#"> ${d.title} </a></h4>
+                                                    </div> 
+                                                    ${star}
+                                                    </div>
+                                                <p class="card-text text-center">${d.platform}</p>
+                                            </div>
+                                            <div class="card-footer text-muted">
+                                                <div class="row">
+                                                <div class="text-left col-2">
+                                                Genre: 
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                              ${d.genre}
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                                Release Date:
+                                                </div>
+                                                <div class="text-left col-2 p-0">
+                                                 ${d.release_year}
+                                                </div>
+                                                <div class="text-right col-2" style="color: red">
+                                                    ${d.score}
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>`
+
+                                }
+
+                            }
+                        })
+                        document.getElementById('url').innerHTML = html
+                        document.getElementById('url_1').innerHTML = html_1
+                    });
+                }
+            )
+            .catch(function (err) {
+            });
+
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("container");
+        li = ul.getElementsByClassName("card");
+        console.log(li)
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            console.log(li)
+            txtValue = a.textContent || a.innerText;
+            console.log(txtValue)
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+
+    function sortFunction() {
+
+      element = `
+        <select id="selectBox" onchange="sortFunc()">
+            <option value="" disabled selected>Choose your option</option>
+            <option class="sort"  value="ascending">Ascending</option>
+            <option class="sort"  value="descending">Descending</option>
+        </select>
+      `
+      document.getElementById('sort').innerHTML = element
+    }
+
+    function sortFunc() {
+        var selectBox = document.getElementById("selectBox");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+        console.log(title)
+        
+        new_array = title.map((t, i) => {
+            return {
+                title: t,
+                platform: platform[i],
+                score: score[i],
+                genre: genre[i],
+                release_year: release_year[i]
+            }
+        })
+       
+        if(selectedValue == 'ascending'){
+            new_array.sort(function(a, b){
+
+                return a.score - b.score
+            })
+        }
+        if(selectedValue == 'descending'){
+            new_array.sort(function(a, b){
+
+                return b.score - a.score
+            })
+        }
+
+        let html_3 = ''
+        let html_4 = ''
+        new_array.map((d, index) => {
+                            let star = d.editors_choice == "Y"  ?  `<div class='col-1' id='ion-pointer'>
+                                                    <ion-icon name="star">
+                                                    </ion-icon></div>` : `<div class='col-1' id='ion-pointer'>
+                                                    <ion-icon name="star-outline"></ion-icon></div>`;
+                                
+        
+                                                    
+                            if(index == 0){
+                                return
+                            }
+                            else
+                            {
+
+                                if(index%2 != 0)
+                                {
+                                    html_3 += `<div class="row" >
+                                        <div class = "col-11">
+                                            <div class="card" style="margin: 16px 0">
+                                                <div class="card-body">
+                                                    <div  class="card-title text-center row">
+                                                    <div class = 'col-11 myUL'><h4><a id="gfg" href="#"> ${d.title} </a></h4></div> 
+                                                    ${star}
+                                                    </div>
+                                                    <p class="card-text text-center">${d.platform}</p>
+                                                </div>
+                                                <div class="card-footer text-muted">
+                                                    <div class="row">
+                                                    <div class="text-left col-2">
+                                                Genre: 
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                              ${d.genre}
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                                Release Date:
+                                                </div>
+                                                <div class="text-left col-2 p-0">
+                                                 ${d.release_year}
+                                                </div>
+                                                <div class="text-right col-2" style="color: red">
+                                                    ${d.score}
+                                                </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>`
+                                }
+                                else
+                                {
+                                    html_4 += `<div class="row">
+                                    <div class = "col-12">
+                                        <div class="card" style="margin: 16px 0">
+                                            <div class="card-body">
+                                                <div  class="card-title text-center row">
+                                                    <div class = 'col-11' id="myUL">
+                                                        <h4><a id="gfg" href="#"> ${d.title} </a></h4>
+                                                    </div> 
+                                                    ${star}
+                                                    </div>
+                                                <p class="card-text text-center">${d.platform}</p>
+                                            </div>
+                                            <div class="card-footer text-muted">
+                                                <div class="row">
+                                                <div class="text-left col-2">
+                                                Genre: 
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                              ${d.genre}
+                                                </div>
+                                                <div class="text-left col-3 p-0">
+                                                Release Date:
+                                                </div>
+                                                <div class="text-left col-2 p-0">
+                                                 ${d.release_year}
+                                                </div>
+                                                <div class="text-right col-2" style="color: red">
+                                                    ${d.score}
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>`
+
+                                }
+
+                            }
+                        })
+
+
+        document.getElementById('url').innerHTML = html_3
+        document.getElementById('url_1').innerHTML = html_4
+
+    }
+
+
+
+
+
+
+
+
+</script>
+	</body>
+</html>
